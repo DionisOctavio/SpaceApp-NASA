@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>El Viaje del Clima Espacial - SpaceNow!</title>
+  <meta name="description" content="Historia interactiva para niños sobre cómo las tormentas solares afectan nuestra vida en la Tierra. Una aventura educativa desde el Sol hasta tu hogar.">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/desafio.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a class="brand-link" href="index.html">
+          <img id="logo-img" src="https://nasa-3513513514684351384351354351.s3.us-east-1.amazonaws.com/logo+(1).png" alt="SpaceNow" onerror="this.style.display='none'">
+          <h2 class="brand-title">SpaceNow!</h2>
+        </a>
+      </div>
+      <div class="nav-actions">
+        <a class="tab-link" href="index.html">Inicio</a>
+        <a class="tab-link active" href="desafio.html">Desafío</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Fullscreen immersive story mode -->
+  <div class="desafio-fullscreen" id="desafio-fullscreen">
+    
+    <!-- Top Bar: title + controls -->
+    <div class="desafio-topbar">
+      <div class="desafio-brand">
+        <span class="desafio-icon">🌞</span>
+        <h1>El Viaje del Sol a la Tierra</h1>
+      </div>
+      <div class="desafio-toolbar">
+        <button id="desafio-play" class="desafio-btn" aria-pressed="false" title="Reproducir automáticamente">
+          <span class="play-icon">▶</span>
+        </button>
+        <button id="desafio-read" class="desafio-btn" title="Leer en voz alta">🔊</button>
+        <button id="desafio-home" class="desafio-btn" title="Volver al inicio">🏠</button>
+      </div>
+    </div>
+
+    <!-- Progress dots -->
+    <div id="desafio-progress" class="desafio-progress" role="tablist" aria-label="Progreso de la historieta"></div>
+
+    <!-- Main Stage: dynamic content -->
+    <section class="comic-stage" id="comic-stage" aria-live="polite">
+      <!-- pages injected by JS -->
+    </section>
+
+    <!-- Bottom Navigation -->
+    <div class="desafio-nav">
+      <button id="desafio-prev" class="desafio-nav-btn">
+        <span class="nav-arrow">◀</span>
+        <span class="nav-label">Anterior</span>
+      </button>
+      <button id="desafio-next" class="desafio-nav-btn primary">
+        <span class="nav-label">Siguiente</span>
+        <span class="nav-arrow">▶</span>
+      </button>
+    </div>
+
+  </div>
+
+  <script type="module" src="../js/desafio.js"></script>
+</body>
+</html>

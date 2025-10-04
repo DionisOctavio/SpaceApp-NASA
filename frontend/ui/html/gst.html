@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tormentas Geomagnéticas - SpaceNow!</title>
+  <link rel="stylesheet" href="../css/gst.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a class="brand-link" href="index.html" aria-label="Volver al inicio">
+          <img src="https://nasa-3513513514684351384351354351.s3.us-east-1.amazonaws.com/logo+(1).png" alt="SpaceNow" style="height:32px;width:auto;margin-right:.5rem;vertical-align:middle;">
+          <h2 class="brand-title">SpaceNow!</h2>
+        </a>
+        <span class="nav-subtitle">Tormentas Geomagnéticas</span>
+      </div>
+      <div class="nav-actions">
+        <a class="tab-link" href="index.html">Inicio</a>
+        <a class="tab-link active" href="gst.html">Tormentas</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container gst-container">
+    <!-- Hero / Intro (incluye histórico) -->
+    <section class="gst-hero">
+      <h1>Monitor de Tormentas Geomagnéticas</h1>
+      <p class="text-muted">Visualización interactiva de eventos GST (Geomagnetic Storm) reportados por DONKI. Explora el índice Kp, evolución temporal e impacto potencial en la Tierra.</p>
+      <div class="history-controls" role="group" aria-label="Histórico de tormentas" style="margin-top:.85rem;display:flex;flex-wrap:wrap;gap:.5rem;">
+        <button id="gst-view-history" class="quick-load-btn" title="Ver histórico guardado" aria-label="Ver histórico guardado"><span>🗂 Histórico <span id="gst-history-badge" class="badge-count" aria-label="Cantidad guardada">0</span></span></button>
+        <button id="gst-clear-history" class="quick-load-btn" title="Borrar histórico" aria-label="Borrar histórico"><span>🧹 Limpiar</span></button>
+      </div>
+      <div id="gst-history-panel" class="gst-history-panel" hidden aria-label="Panel histórico" style="margin-top:.75rem;border:1px solid rgba(255,255,255,.08);padding:.75rem;border-radius:8px;background:rgba(255,255,255,.02);">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap;">
+          <h4 style="margin:0;font-size:1rem;">🗂 Tormentas Guardadas <span id="gst-history-count" style="font-weight:400;color:var(--color-text-secondary);"></span></h4>
+          <div style="display:flex;gap:.5rem;">
+            <button id="gst-history-close" class="quick-load-btn" aria-label="Cerrar histórico" title="Cerrar histórico"><span>✕</span></button>
+          </div>
+        </div>
+        <div id="gst-history-empty" class="text-muted" style="font-size:.75rem;margin-top:.5rem;">No hay tormentas guardadas todavía.</div>
+        <div id="gst-history-list" style="display:grid;gap:.4rem;margin-top:.5rem;"></div>
+        <div style="margin-top:.6rem;font-size:.6rem;opacity:.7;line-height:1.3;">Persistencia local (localStorage). Cada elemento incluye acceso directo a la fuente oficial si está disponible. Al limpiar se elimina definitivamente en este navegador.</div>
+      </div>
+    </section>
+
+    <!-- Controls -->
+    <section class="gst-controls" aria-label="Controles de rango temporal">
+      <h3>📅 Seleccionar Rango Rápido</h3>
+      <div class="date-controls" role="group" aria-label="Botones de carga rápida">
+        <button id="gst-btn-today" class="quick-load-btn primary" 
+                aria-label="Cargar datos de hoy" 
+                data-days="1">
+          <span>Hoy</span>
+        </button>
+        <button id="gst-btn-3d" class="quick-load-btn" 
+                aria-label="Cargar datos de los últimos 3 días" 
+                data-days="3">
+          <span>3 días</span>
+        </button>
+        <button id="gst-btn-7d" class="quick-load-btn" 
+                aria-label="Cargar datos de los últimos 7 días" 
+                data-days="7">
+          <span>7 días</span>
+        </button>
+        <button id="gst-btn-30d" class="quick-load-btn" 
+                aria-label="Cargar datos de los últimos 30 días" 
+                data-days="30">
+          <span>30 días</span>
+        </button>
+        <button id="gst-refresh" class="quick-load-btn" 
+                title="Recargar datos actuales" 
+                aria-label="Recargar datos">
+          <span>🔄</span>
+        </button>
+      </div>
+      <div id="gst-status" class="gst-status" role="status" aria-live="polite">Inicializando...</div>
+    </section>
+
+    <!-- Grid Layout -->
+    <section class="gst-grid">
+      <!-- Visualization / KP timeline -->
+      <div class="gst-visual" id="gst-visual">
+        <!-- Earth 3D Visualization -->
+        <div class="earth-visualization-wrapper">
+          <h4>🌍 Visualización Global de Tormentas</h4>
+          <div id="earth-container" class="earth-container">
+            <canvas id="earth-canvas"></canvas>
+            <div class="earth-controls">
+              <div class="earth-controls-left">
+                <button id="earth-toggle-rotation" class="earth-btn">⏸️ Pausar rotación</button>
+                <button id="earth-reset-view" class="earth-btn">🎯 Vista inicial</button>
+                <button id="earth-show-all" class="earth-btn" title="Mostrar todas las tormentas">🌍 Vista general</button>
+              </div>
+              <div class="earth-info">
+                <span id="earth-storm-count">0 tormentas activas</span>
+              </div>
+            </div>
+            <!-- Temporal Info Panel for Selected Storm -->
+            <div id="earth-temporal-info" class="earth-temporal-info" style="display: none;">
+              <div class="temporal-info-header">
+                <h5>📊 Evolución Temporal</h5>
+                <button id="close-temporal-info" class="close-btn">✕</button>
+              </div>
+              <div id="temporal-info-content" class="temporal-info-content">
+                <!-- Dynamic content will be inserted here -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Gauge Kp Actual -->
+        <div class="kp-gauge-wrapper" aria-label="Estado geomagnético actual">
+          <div class="kp-gauge-box">
+            <svg id="kp-gauge" viewBox="0 0 200 120" role="img" aria-labelledby="kpGaugeTitle kpGaugeDesc">
+              <title id="kpGaugeTitle">Índice Kp Actual</title>
+              <desc id="kpGaugeDesc">Velocímetro semicircular que muestra el índice geomagnético Kp de 0 a 9.</desc>
+              <!-- background arc -->
+              <path id="kp-gauge-bg" class="kp-gauge-bg" d="M10 110 A90 90 0 0 1 190 110" />
+              <!-- foreground arc dynamically adjusted -->
+              <path id="kp-gauge-fg" class="kp-gauge-fg" d="M10 110 A90 90 0 0 1 190 110" />
+              <!-- tick marks -->
+              <g id="kp-gauge-ticks" class="kp-gauge-ticks"></g>
+              <!-- needle -->
+              <line id="kp-gauge-needle" class="kp-gauge-needle" x1="100" y1="110" x2="100" y2="30" />
+              <circle cx="100" cy="110" r="5" class="kp-gauge-pivot" />
+            </svg>
+            <div class="kp-gauge-readout">
+              <div id="kp-gauge-value" class="kp-gauge-value">--</div>
+              <div id="kp-gauge-text" class="kp-gauge-text">Cargando...</div>
+              <div id="kp-gauge-sub" class="kp-gauge-sub">Sin datos</div>
+            </div>
+          </div>
+        </div>
+        <div class="kp-summary" id="kp-summary">
+          <div class="kp-card">
+            <div class="kp-label">Máx Kp</div>
+            <div class="kp-value" id="kp-max">--</div>
+          </div>
+            <div class="kp-card">
+            <div class="kp-label">Promedio</div>
+            <div class="kp-value" id="kp-avg">--</div>
+          </div>
+          <div class="kp-card">
+            <div class="kp-label">Eventos</div>
+            <div class="kp-value" id="gst-count">--</div>
+          </div>
+          <div class="kp-card">
+            <div class="kp-label">Última Act.</div>
+            <div class="kp-value" id="kp-last">--</div>
+          </div>
+        </div>
+        <div class="kp-timeline-wrapper">
+          <h4>Evolución Índice Kp</h4>
+          <div id="kp-timeline" class="kp-timeline" aria-label="Línea temporal índice Kp"></div>
+          <div class="kp-legend" aria-hidden="true">
+            <span><b>0-1</b> Tranquilo</span>
+            <span><b>2-3</b> Inestable</span>
+            <span><b>4</b> Activo</span>
+            <span><b>5-9</b> Tormenta (G1-G5)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Panel -->
+      <aside class="gst-info" id="gst-info">
+        <h2>Detalles del Evento</h2>
+        <div id="gst-details" class="gst-details-panel">
+          <p class="text-muted">Selecciona una tormenta geomagnética de la lista para ver sus detalles. Los colores reflejan la severidad basada en el índice Kp.</p>
+        </div>
+        <h3 class="gst-list-title">Listado de Tormentas</h3>
+        <div id="gst-list" class="gst-list" aria-label="Lista de tormentas geomagnéticas"></div>
+      </aside>
+    </section>
+
+    <!-- Explanation -->
+    <section class="gst-explain">
+      <h3>¿Qué es una Tormenta Geomagnética?</h3>
+      <p>Una <strong>Tormenta Geomagnética</strong> es una perturbación temporal del campo magnético de la Tierra causada por la interacción del viento solar y eyecciones de masa coronal (CME) con la magnetosfera. Se mide mediante el índice <strong>Kp</strong> (0–9). Valores altos pueden afectar satélites, redes eléctricas y producir auroras visibles en latitudes más bajas.</p>
+      <div class="info-grid">
+        <div class="info-card"><div class="info-icon">🧭</div><h4>Índice Kp</h4><p>Mide la perturbación geomagnética global en una escala de 0 a 9.</p></div>
+        <div class="info-card"><div class="info-icon">🛰️</div><h4>Impacto Tecnológico</h4><p>Puede degradar comunicaciones HF, navegación y afectar satélites.</p></div>
+        <div class="info-card"><div class="info-icon">🌌</div><h4>Auroras</h4><p>Tormentas fuertes (Kp ≥ 6) pueden hacer visibles auroras en latitudes medias.</p></div>
+        <div class="info-card"><div class="info-icon">⚡</div><h4>Causas</h4><p>Principalmente CMEs y corrientes de alta velocidad (HSS) del Sol.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script type="module" src="../js/gst.js"></script>
+</body>
+</html>

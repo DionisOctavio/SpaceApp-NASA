@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NEOs - SpaceNow!</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/neows.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a class="brand-link" href="index.html">
+          <img id="logo-img" src="https://nasa-3513513514684351384351354351.s3.us-east-1.amazonaws.com/logo+(1).png" alt="SpaceNow" onerror="this.style.display='none'">
+          <h2 class="brand-title">SpaceNow!</h2>
+        </a>
+        <span class="nav-subtitle">Objetos Cercanos a la Tierra</span>
+      </div>
+      <div class="nav-actions">
+        <a class="tab-link" href="index.html">Inicio</a>
+        <a class="tab-link active" href="neos.html">NEOs</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="neos-hero">
+      <h1>🌍 Near Earth Objects (NEOs)</h1>
+      <p class="text-muted">Visualización 3D interactiva de asteroides cercanos a la Tierra. Haz clic en los objetos para ver sus detalles.</p>
+    </section>
+
+    <!-- Controls Panel -->
+    <section class="neos-controls">
+      <h3>📅 Filtros de Búsqueda</h3>
+      <div class="date-controls">
+        <button id="btn-today" class="quick-load-btn primary">Hoy</button>
+        <button id="btn-7d" class="quick-load-btn">7 días</button>
+        <button id="btn-30d" class="quick-load-btn">30 días</button>
+        <input type="date" id="neo-start" class="date-input" aria-label="Fecha inicio">
+        <input type="date" id="neo-end" class="date-input" aria-label="Fecha fin">
+        <button id="btn-load" class="load-btn">🔍 Buscar</button>
+      </div>
+      
+      <div class="filter-controls">
+        <label class="filter-option">
+          <input type="checkbox" id="filter-hazardous" checked>
+          <span>🔴 Mostrar solo potencialmente peligrosos</span>
+        </label>
+        <label class="filter-option">
+          <input type="checkbox" id="filter-all" checked>
+          <span>⚪ Mostrar todos los NEOs</span>
+        </label>
+      </div>
+      
+      <div class="neos-status" id="neos-status">Cargando datos...</div>
+    </section>
+
+    <!-- 3D Visualization Grid -->
+    <section class="neos-grid">
+      <!-- 3D Canvas -->
+      <div class="earth-viewer">
+        <canvas id="earth-canvas"></canvas>
+        <div class="viewer-controls">
+          <button id="btn-reset-view" class="control-btn" title="Resetear vista">🔄</button>
+          <button id="btn-toggle-rotation" class="control-btn" title="Pausar/Reanudar rotación">⏯️</button>
+          <button id="btn-toggle-orbits" class="control-btn active" title="Mostrar/Ocultar órbitas">🛸</button>
+        </div>
+        <div class="viewer-legend">
+          <div class="legend-item">
+            <span class="legend-dot hazardous"></span>
+            <span>Potencialmente Peligroso</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot safe"></span>
+            <span>No Peligroso</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Panel -->
+      <aside class="neos-info" id="neos-info">
+        <h2>📊 NEOs Detectados</h2>
+        <div class="info-summary" id="info-summary"></div>
+        <div id="neo-details-panel">
+          <div class="empty-state">
+            <div class="empty-icon">🌌</div>
+            <p>Selecciona un rango de fechas para cargar asteroides cercanos a la Tierra.</p>
+            <p class="text-muted">Los asteroides aparecerán listados aquí. Haz clic en cualquiera para verlo en el mapa 3D.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Explanation Section -->
+    <section class="neos-explain">
+      <h3>¿Qué son los NEOs?</h3>
+      <p>Los <strong>Near Earth Objects (NEOs)</strong> son asteroides y cometas cuyas órbitas los acercan a menos de 1.3 UA (Unidades Astronómicas) de la Tierra. La NASA monitorea estos objetos constantemente para evaluar posibles impactos futuros.</p>
+      
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-icon">🎯</div>
+          <h4>Potencialmente Peligrosos (PHA)</h4>
+          <p>Asteroides con órbita cercana (< 0.05 UA) y diámetro > 140 metros.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📏</div>
+          <h4>Distancia de Aproximación</h4>
+          <p>Medida en distancias lunares (LD). 1 LD = 384,400 km.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">⚡</div>
+          <h4>Velocidad Relativa</h4>
+          <p>Velocidad del asteroide respecto a la Tierra, medida en km/s.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Three.js Library - Using ES Modules -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
+      }
+    }
+  </script>
+  
+  <!-- Application Script -->
+  <script type="module" src="../js/neos.js"></script>
+</body>
+</html>

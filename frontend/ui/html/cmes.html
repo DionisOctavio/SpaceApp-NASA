@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CMEs - SpaceNow!</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a class="brand-link" href="index.html">
+          <img src="https://nasa-3513513514684351384351354351.s3.us-east-1.amazonaws.com/logo+(1).png" class="logo-img" alt="SpaceNow" onerror="this.style.display='none'">
+          <h2 class="brand-title">SpaceNow!</h2>
+        </a>
+        <span class="nav-subtitle">Eyecciones de Masa Coronal</span>
+      </div>
+      <div class="nav-actions">
+        <a class="tab-link" href="index.html">Inicio</a>
+        <a class="tab-link active" href="cmes.html">CMEs</a>
+      </div>
+    </div>
+  </nav>
+  <main class="container">
+    <div id="cme-content">
+      <p class="text-muted">Visualización de CMEs y su trayectoria. Carga datos reales desde DONKI y anima una CME.</p>
+      <!-- CME visualization will be injected via JS -->
+      <div id="cme-visual"></div>
+    </div>
+  </main>
+  <script type="module" src="../js/cmes.js"></script>
+</body>
+</html>

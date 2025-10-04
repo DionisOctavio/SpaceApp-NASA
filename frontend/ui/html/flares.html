@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fulguraciones - SpaceNow!</title>
+  <link rel="stylesheet" href="../css/flares.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a class="brand-link" href="index.html" aria-label="Volver al inicio">
+          <img id="logo-img" src="https://nasa-3513513514684351384351354351.s3.us-east-1.amazonaws.com/logo+(1).png" alt="SpaceNow logo" onerror="this.style.display='none'" />
+          <h2 class="brand-title">SpaceNow!</h2>
+        </a>
+        <span class="nav-subtitle">Fulguraciones Solares</span>
+      </div>
+      <div class="nav-actions">
+        <a class="tab-link" href="index.html">Inicio</a>
+        <a class="tab-link active" href="flares.html">Fulguraciones</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="flares-hero">
+      <h1>Mapa de Fulguraciones Solares</h1>
+      <p class="text-muted">Visualización interactiva de fulguraciones solares en tiempo real desde DONKI. Haz clic en los puntos activos para ver detalles.</p>
+    </section>
+
+    <!-- Controls Section -->
+    <section class="flares-controls">
+      <h3>📅 Seleccionar Rango</h3>
+      <div class="date-controls">
+        <button id="btn-today" class="quick-load-btn primary">Hoy</button>
+        <button id="btn-7d" class="quick-load-btn">7 días</button>
+        <button id="btn-30d" class="quick-load-btn">30 días</button>
+        <input type="date" id="timeline-start" class="date-input" aria-label="Fecha inicio">
+        <input type="date" id="timeline-end" class="date-input" aria-label="Fecha fin">
+        <button id="timeline-prev" class="nav-btn" aria-label="Día anterior">◀</button>
+        <button id="timeline-next" class="nav-btn" aria-label="Día siguiente">▶</button>
+      </div>
+      <div class="flares-status" id="timeline-status">Cargando datos...</div>
+    </section>
+
+    <section class="flares-grid">
+      <div class="sun-map" id="sun-map">
+        <!-- Simple SVG sun with hotspots -->
+        <svg viewBox="0 0 800 800" width="100%" height="600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa interactivo del Sol">
+          <defs>
+            <radialGradient id="sunGrad" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="#fff1b8" />
+              <stop offset="40%" stop-color="#ffd966" />
+              <stop offset="100%" stop-color="#ff8c00" />
+            </radialGradient>
+          </defs>
+
+          <circle cx="400" cy="400" r="300" fill="url(#sunGrad)" stroke="#ffcc66" stroke-width="4" />
+
+          <!-- Hotspots will be dynamically added here by JS -->
+          <g id="hotspots"></g>
+        </svg>
+      </div>
+
+      <aside class="flares-info" id="flares-info">
+        <h2>Detalles</h2>
+        <div id="details-panel">
+          <p class="text-muted">Selecciona un rango de fechas para ver fulguraciones solares. Los puntos en el mapa representan regiones activas.</p>
+        </div>
+        
+      </aside>
+    </section>
+
+    <section class="flares-explain">
+      <h3>¿Qué estamos mostrando?</h3>
+      <p>Este mapa interactivo muestra fulguraciones solares reales detectadas por la NASA. Las fulguraciones se clasifican según su intensidad de rayos X: <strong>Clase C</strong> (menores), <strong>Clase M</strong> (medianas) y <strong>Clase X</strong> (las más intensas). Las posiciones en el mapa representan las coordenadas solares (latitud/longitud) donde ocurrieron las fulguraciones.</p>
+    </section>
+  </main>
+
+  <script type="module" src="../js/flares.js"></script>
+</body>
+</html>

@@ -1,0 +1,669 @@
+/* ============================================
+   SpaceNow! - Flares Page Specific Styles
+   Base from styles.css + flares-specific additions
+   ============================================ */
+
+/* Import all base variables and global styles */
+@import url('./styles.css');
+
+/* ========== FLARES SPECIFIC OVERRIDES & ADDITIONS ========== */
+/* Logo override (unificado) */
+#logo-img {
+  width: 2.5em;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Flares Hero Section */
+.flares-hero {
+  margin: var(--spacing-xl) 0 var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: var(--gradient-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(10px);
+}
+
+.flares-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+  background: linear-gradient(135deg, #ffd700, #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Flares Controls - Minimalista y Formal */
+.flares-controls {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.flares-controls h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 var(--spacing-xs) 0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.date-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.date-input {
+  padding: 0.625rem 0.875rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--color-accent-cyan);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.quick-load-btn,
+.nav-btn {
+  padding: 0.625rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.quick-load-btn:hover,
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.quick-load-btn.primary {
+  background: var(--color-accent-cyan);
+  color: #000;
+  border-color: var(--color-accent-cyan);
+  font-weight: 600;
+}
+
+.quick-load-btn.primary:hover {
+  background: #00ffff;
+}
+
+.flares-status {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(0, 217, 255, 0.03);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 4px;
+  color: var(--color-accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* Flares Grid - already defined in styles.css, enhance here */
+.flares-grid {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Sun Map enhancements */
+.sun-map {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.1);
+}
+
+.sun-map svg {
+  filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.2));
+}
+
+/* Hotspot Styles */
+.hotspot {
+  cursor: pointer;
+  transition: all var(--transition-base);
+  filter: drop-shadow(0 0 8px currentColor);
+  transform-origin: center center;
+  transform-box: fill-box;
+}
+
+.hotspot:hover {
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 12px currentColor) drop-shadow(0 0 20px currentColor);
+}
+
+.hotspot:focus {
+  outline: none;
+  transform: scale(1.4);
+  filter: drop-shadow(0 0 15px currentColor) drop-shadow(0 0 25px currentColor);
+}
+
+.hotspot.selected {
+  transform: scale(1.5);
+  filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 30px currentColor);
+}
+
+/* Animated hotspot for recent flares */
+.hotspot.recent {
+  animation: pulse-hotspot 2s ease-in-out infinite;
+}
+
+/* Preserve hover on recent flares */
+.hotspot.recent:hover {
+  animation: none;
+  transform: scale(1.3);
+}
+
+@keyframes pulse-hotspot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+/* Class-based colors */
+.hotspot.class-C {
+  fill: #ffa502;
+}
+
+.hotspot.class-M {
+  fill: #ff6b35;
+}
+
+.hotspot.class-X {
+  fill: #ff3b30;
+}
+
+/* Info Panel - Minimalista */
+.flares-info {
+  backdrop-filter: blur(10px);
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  position: sticky;
+  top: 100px;
+}
+
+.flares-info h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.flares-info h2::before {
+  content: '☀️';
+  font-size: 1.5rem;
+}
+
+#details-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: var(--spacing-xs);
+}
+
+#details-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+#details-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+#details-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 217, 255, 0.4);
+  border-radius: 2px;
+}
+
+#details-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 217, 255, 0.6);
+}
+
+/* ========== FLARE DETAILS PANEL - DISEÑO MINIMALISTA Y FORMAL ========== */
+
+/* Flare Header con Badge - Limpio y Compacto */
+.flare-header {
+  margin-bottom: 1.25rem;
+}
+
+.flare-badge {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border: 1px solid;
+  border-left-width: 3px;
+}
+
+.flare-badge.class-C {
+  border-color: #ffa502;
+}
+
+.flare-badge.class-M {
+  border-color: #ff6b35;
+}
+
+.flare-badge.class-X {
+  border-color: #ff3b30;
+}
+
+.flare-icon {
+  font-size: 2rem;
+  grid-row: 1 / 3;
+  align-self: center;
+}
+
+.flare-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.flare-title h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+.flare-intensity {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Stat Cards - Compactos y Ordenados */
+.flare-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(0, 217, 255, 0.3);
+}
+
+.stat-icon-wrapper {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 217, 255, 0.08);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.stat-icon {
+  font-size: 1.125rem;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Section Styling - Simple y Claro */
+.flare-section {
+  margin-bottom: 1.25rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.section-icon {
+  font-size: 1.25rem;
+}
+
+.section-header h5 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Timeline Grid - Minimalista */
+.timeline-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  border-left: 2px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
+}
+
+.timeline-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-left-color: var(--color-accent-cyan);
+}
+
+.timeline-item.highlight {
+  background: rgba(255, 215, 0, 0.08);
+  border-left-color: #ffd700;
+}
+
+.timeline-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent-cyan);
+  flex-shrink: 0;
+}
+
+.timeline-item.highlight .timeline-dot {
+  background: #ffd700;
+}
+
+.timeline-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  gap: 0.75rem;
+}
+
+.timeline-label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeline-value {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Instruments - Limpio */
+.instruments-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.instrument-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.875rem;
+  background: rgba(0, 217, 255, 0.06);
+  color: var(--color-accent-cyan);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+
+.instrument-tag:hover {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: rgba(0, 217, 255, 0.35);
+}
+
+/* Events - Simple */
+.events-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255, 107, 53, 0.06);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 4px;
+}
+
+.events-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 0.5rem;
+  background: #ff6b35;
+  color: #ffffff;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.events-text {
+  font-size: 0.875rem;
+  color: #ff6b35;
+  font-weight: 600;
+}
+
+/* Description - Minimalista */
+.flare-description {
+  padding: 1rem;
+  background: rgba(0, 217, 255, 0.03);
+  border-left: 3px solid var(--color-accent-cyan);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.flare-description p {
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Remove old list styles */
+#details-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#details-panel li {
+  padding: 0;
+  background: none;
+  border: none;
+  margin: 0;
+}
+
+#details-panel li:hover {
+  background: none;
+  transform: none;
+}
+
+/* Flares Legend */
+.flares-legend {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.flares-legend h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-accent-cyan);
+}
+
+.legend-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-sm);
+}
+
+.legend-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid white;
+  flex-shrink: 0;
+}
+
+.legend-dot.class-C {
+  background: #ffa502;
+  box-shadow: 0 0 8px #ffa502;
+}
+
+.legend-dot.class-M {
+  background: #ff6b35;
+  box-shadow: 0 0 8px #ff6b35;
+}
+
+.legend-dot.class-X {
+  background: #ff3b30;
+  box-shadow: 0 0 8px #ff3b30;
+}
+
+.legend-label {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* Flares Explain Section */
+.flares-explain {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: rgba(255, 165, 2, 0.05);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-lg);
+}
+
+.flares-explain h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+  color: #ffd700;
+}
+
+/* Responsive overrides for flares */
+@media (max-width: 1200px) {
+  .flares-info {
+    position: relative;
+    top: auto;
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .flares-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .flares-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .flares-controls h3 {
+    margin-right: 0;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .date-controls {
+    width: 100%;
+  }
+  
+  .date-input,
+  .quick-load-btn,
+  .nav-btn {
+    flex: 1;
+  }
+}
