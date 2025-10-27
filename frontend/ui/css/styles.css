@@ -1720,15 +1720,3 @@ body {
   justify-content: center;
 }
 .cme-zoom:hover { background: rgba(0,0,0,0.6); transform: translateY(-2px); }
-
-/* ========== CHALLENGE SECTION: El Clima espacial ========== */
-.challenge-section { padding: var(--spacing-xl) 0; }
-.challenge-card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,217,255,0.02)); border:1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--spacing-lg); display:flex; flex-direction:column; gap:1rem; align-items:flex-start; }
-.challenge-header h2 { margin:0; color: var(--color-accent-yellow); font-size:1.5rem; }
-.challenge-body p { color: var(--color-text-secondary); line-height:1.6; }
-.challenge-actions { margin-top:.5rem; }
-.challenge-btn { text-decoration:none; display:inline-block; }
-
-@media (max-width: 768px) {
-  .challenge-card { text-align: left; }
-}

@@ -1,6 +1,6 @@
 // frontend/infra/util/FetchUtil.js
 export class FetchUtil {
-  static BASE_URL = "http://3.93.174.142:5173/api"; 
+  static BASE_URL = "http://localhost:5173/api"; 
 
   static async get(path) {
     const url = `${this.BASE_URL}${path}`;

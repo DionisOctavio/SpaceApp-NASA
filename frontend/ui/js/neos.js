@@ -118,16 +118,24 @@ function createSun() {
   state.sun.position.set(0, 0, 0);
   state.scene.add(state.sun);
   
-  // Luz puntual desde el Sol
-  const sunLight = new THREE.PointLight(0xffffff, 2, 500);
+  // Luz puntual principal desde el Sol (más intensa)
+  const sunLight = new THREE.PointLight(0xffffff, 3.5, 500);
   sunLight.position.set(0, 0, 0);
+  sunLight.castShadow = false;
   state.scene.add(sunLight);
+  state.sun.userData.mainLight = sunLight;
   
-  // Luz ambiental suave
-  const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
+  // Luz direccional adicional desde el Sol hacia la Tierra
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  directionalLight.position.set(0, 0, 0);
+  state.scene.add(directionalLight);
+  state.sun.userData.directionalLight = directionalLight;
+  
+  // Luz ambiental más brillante para iluminar mejor
+  const ambientLight = new THREE.AmbientLight(0x606060, 0.6);
   state.scene.add(ambientLight);
   
-  console.log('☀️ Sun created at heliocentric origin');
+  console.log('☀️ Sun created at heliocentric origin with enhanced lighting');
   updateStatus('☀️ Sol creado en el centro del sistema.');
 }
 
@@ -182,7 +190,9 @@ function createEarth() {
   
   const material = new THREE.MeshPhongMaterial({
     map: earthTexture,
-    shininess: 5
+    shininess: 15,
+    specular: 0x333333,  // Reflejo especular en océanos
+    bumpScale: 0.005     // Añade profundidad
   });
 
   state.earth = new THREE.Mesh(geometry, material);
@@ -191,14 +201,21 @@ function createEarth() {
   updateEarthPosition();
   
   state.scene.add(state.earth);
+  
+  // Luz adicional que ilumina la Tierra directamente
+  const earthLight = new THREE.PointLight(0xffffff, 0.8, 100);
+  state.earth.add(earthLight);
+  earthLight.position.set(5, 5, 5);
+  state.earth.userData.earthLight = earthLight;
 
   // Optional: Add cloud layer
   const cloudsGeometry = new THREE.SphereGeometry(1.02, 16, 16);
   const cloudsMaterial = new THREE.MeshPhongMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.12,
-    depthWrite: false
+    opacity: 0.15,      // Más visibles
+    depthWrite: false,
+    shininess: 10
   });
   const clouds = new THREE.Mesh(cloudsGeometry, cloudsMaterial);
   state.earth.add(clouds);
@@ -661,6 +678,13 @@ function animate(currentTime) {
     if (state.earth.userData.clouds) {
       state.earth.userData.clouds.rotation.y += 0.0007;
     }
+    
+    // Update directional light to always point at Earth
+    if (state.sun && state.sun.userData.directionalLight) {
+      const dirLight = state.sun.userData.directionalLight;
+      dirLight.target.position.copy(state.earth.position);
+      dirLight.target.updateMatrixWorld();
+    }
   }
   
   // Rotate Sun slowly (visual effect)
@@ -774,7 +798,7 @@ async function loadNeoData(startDate, endDate) {
 
   try {
     // Use port 5173 (or check process.env.PORT)
-    const response = await fetch(`http://localhost:5173/api/neo/feed?start_date=${startDate}&end_date=${endDate}`);
+    const response = await fetch(`http://23.21.211.125:5173/api/neo/feed?start_date=${startDate}&end_date=${endDate}`);
     
     if (!response.ok) throw new Error('Error al cargar datos');
 
